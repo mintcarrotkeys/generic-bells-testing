@@ -23,18 +23,18 @@ async function requestToken() {
     //     'code_verifier': codeVerifier
     // }
     const requestBody = (
+        code
+    );
+    const requestURL = (
+        "https://student.sbhs.net.au/api/token" +
         "grant_type=authorization_code" +
-        "&code=" + code +
         "&redirect_uri=" + redirect +
         "&client_id=genericbellstestingonly" +
         "&code_verifier=" + codeVerifier
     );
-    const requestURL = (
-        "https://student.sbhs.net.au/api/token"
-    );
 
     console.log(requestURL);
-    const tokens = await fetch(requestURL, {method: "POST", body: JSON.stringify(requestBody)});
+    const tokens = await fetch(requestURL, {method: "POST", body: code});
     console.log(tokens);
     return tokens.json();
 }
