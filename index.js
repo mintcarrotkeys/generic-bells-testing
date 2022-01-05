@@ -25,12 +25,13 @@ async function requestToken() {
     );
 
     console.log(requestURL);
-    fetch(requestURL, {method: "POST"}).then(res => console.log(res));
+    const tokens = await fetch(requestURL, {method: "POST"});
+    console.log(tokens);
+    return tokens;
 }
 
-console.log(requestToken());
 
-
+requestToken();
 
 
 document.getElementById("test").onclick = async function requestCode() {
