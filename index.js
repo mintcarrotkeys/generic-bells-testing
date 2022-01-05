@@ -25,6 +25,7 @@ async function requestToken() {
     );
 
     console.log(requestURL);
+    fetch(requestURL, {method: "POST"}).then(res => console.log(res));
 }
 
 console.log(requestToken());
