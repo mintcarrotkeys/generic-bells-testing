@@ -5,8 +5,7 @@
 async function requestToken() {
     const codeVerifier = localStorage.getItem('handle_login_verifier');
     const state = localStorage.getItem('handle_login_state');
-    const params = new URLSearchParams(url.toString().split("?")[1]);
-
+    const params = new URLSearchParams(location.href.toString().split("?")[1]);
     if (params.has('code') === false) {
         return "";
     }
