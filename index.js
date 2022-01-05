@@ -27,7 +27,7 @@ async function requestToken() {
     console.log(requestURL);
 }
 
-requestToken();
+console.log(requestToken());
 
 
 
