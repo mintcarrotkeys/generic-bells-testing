@@ -15,23 +15,26 @@ async function requestToken() {
     if (returnedState !== state) {
         return false;
     }
+    const requestBody = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': redirect,
+        'client_id': 'genericbellstestingonly',
+        'code_verifier': codeVerifier
+    }
     const requestURL = (
-        "https://student.sbhs.net.au/api/token?" +
-        "grant_type=authorization_code" +
-        "&code=" + code +
-        "&redirect_uri=" + redirect +
-        "&client_id=genericbellstestingonly" +
-        "&code_verifier=" + codeVerifier
+        "https://student.sbhs.net.au/api/token"
     );
 
     console.log(requestURL);
-    const tokens = await fetch(requestURL, {method: "POST"});
+    const tokens = await fetch(requestURL, {method: "POST", body: JSON.stringify(requestBody)});
     console.log(tokens);
-    return tokens;
+    return tokens.JSON();
 }
 
 
-requestToken();
+const data = requestToken();
+console.log(data);
 
 
 document.getElementById("test").onclick = async function requestCode() {
