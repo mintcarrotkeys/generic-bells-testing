@@ -15,13 +15,20 @@ async function requestToken() {
     if (returnedState !== state) {
         return false;
     }
-    const requestBody = {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'redirect_uri': redirect,
-        'client_id': 'genericbellstestingonly',
-        'code_verifier': codeVerifier
-    }
+    // const requestBody = {
+    //     'grant_type': 'authorization_code',
+    //     'code': code,
+    //     'redirect_uri': redirect,
+    //     'client_id': 'genericbellstestingonly',
+    //     'code_verifier': codeVerifier
+    // }
+    const requestBody = (
+        "grant_type=authorization_code" +
+        "&code=" + code +
+        "&redirect_uri=" + redirect +
+        "&client_id=genericbellstestingonly" +
+        "&code_verifier=" + codeVerifier
+    );
     const requestURL = (
         "https://student.sbhs.net.au/api/token"
     );
@@ -29,7 +36,7 @@ async function requestToken() {
     console.log(requestURL);
     const tokens = await fetch(requestURL, {method: "POST", body: JSON.stringify(requestBody)});
     console.log(tokens);
-    return tokens.JSON();
+    return tokens.json();
 }
 
 
