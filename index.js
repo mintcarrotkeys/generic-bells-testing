@@ -26,7 +26,7 @@ async function requestToken() {
         code
     );
     const requestURL = (
-        "https://student.sbhs.net.au/api/token" +
+        "https://student.sbhs.net.au/api/token?" +
         "grant_type=authorization_code" +
         "&redirect_uri=" + redirect +
         "&client_id=genericbellstestingonly" +
