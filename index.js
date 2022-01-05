@@ -66,6 +66,7 @@ document.getElementById("test").onclick = async function requestCode() {
     const state = randomString(32);
     localStorage.setItem('handle_login_verifier', codeVerifier);
     localStorage.setItem('handle_login_state', state);
+    console.log(codeVerifier);
 
     const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
 
