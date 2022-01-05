@@ -7,16 +7,24 @@ async function requestToken() {
     const state = localStorage.getItem('handle_login_state');
     const params = new URLSearchParams(location.href.toString().split("?")[1]);
     if (params.has('code') === false) {
-        return "";
+        return false;
     }
     const code = params.get('code');
-    console.log(code);
+    const returnedState = params.get('state');
+    const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
+    if (returnedState !== state) {
+        return false;
+    }
     const requestURL = (
         "https://student.sbhs.net.au/api/token?" +
-        ""
-
+        "&grant_type=authorization_code" +
+        "&code=" + code +
+        "&redirect_uri=" + redirect +
+        "&client_id=genericbellstestingonly" +
+        "&code_verifier=" + codeVerifier
     );
 
+    console.log(requestURL);
 }
 
 requestToken();
