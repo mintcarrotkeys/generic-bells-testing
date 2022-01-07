@@ -1,6 +1,6 @@
 const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
 
-document.getElementById('version').textContent = "v0.1.3";
+document.getElementById('version').textContent = "v0.1.4";
 
 async function requestToken() {
     localStorage.setItem('access_age', Date.now().toString());
@@ -11,6 +11,7 @@ async function requestToken() {
         return false;
     }
     const params = new URLSearchParams(location.href.toString().split("?")[1]);
+    history.replaceState({}, "", "/");
     if (params.has('code') === false) {
         return false;
     }
@@ -56,7 +57,6 @@ async function requestToken() {
     console.log(tokens);
     localStorage.setItem('handle_access', tokens['access_token']);
     localStorage.setItem('access_age', Date.now().toString());
-    history.replaceState({}, "", "");
 
     return true;
 }
