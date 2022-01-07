@@ -1,6 +1,6 @@
 const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
 
-document.getElementById('version').textContent = "v0.1.1";
+document.getElementById('version').textContent = "v0.1.3";
 
 async function requestToken() {
     localStorage.setItem('access_age', Date.now().toString());
@@ -56,6 +56,7 @@ async function requestToken() {
     console.log(tokens);
     localStorage.setItem('handle_access', tokens['access_token']);
     localStorage.setItem('access_age', Date.now().toString());
+    history.replaceState({}, "", "");
 
     return true;
 }
