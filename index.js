@@ -1,6 +1,6 @@
 const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
 
-document.getElementById('version').textContent = "v0.1.5";
+document.getElementById('version').textContent = "v0.1.6";
 
 async function requestToken() {
     localStorage.setItem('access_age', Date.now().toString());
@@ -168,10 +168,12 @@ async function fetchData() {
      *
      * **/
     let routineData;
+    const token = localStorage.getItem('handle_access');
+    console.log(token);
     fetch(baseUrl + "timetable/daytimetable.json",
         {
             headers: new Headers({
-                Authorization: "Bearer " + localStorage.getItem('handle_access'),
+                Authorization: ("Bearer " + token),
                 'Content-Type': "application/json"
             })
         }).then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
