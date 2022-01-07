@@ -170,11 +170,18 @@ async function fetchData() {
     let routineData;
     const token = localStorage.getItem('handle_access');
     console.log(token);
+    fetch(baseUrl + "timetable/bells.json",
+        {
+            // headers: new Headers({
+            //     Authorization: ("Bearer " + token)
+            //     // 'Content-type': "application/json"
+            // })
+        }).then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
     fetch(baseUrl + "timetable/daytimetable.json",
         {
             headers: new Headers({
-                Authorization: ("Bearer " + token),
-                'Content-Type': "application/json"
+                Authorization: ("Bearer " + token)
+                // 'Content-type': "application/json"
             })
         }).then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
 
