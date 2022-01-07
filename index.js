@@ -3,8 +3,11 @@
 
 
 async function requestToken() {
-    const codeVerifier = localStorage.getItem('handle_login_verifier');
-    const state = localStorage.getItem('handle_login_state');
+    const codeVerifier = localStorage.getItem('handle_verifier');
+    const state = localStorage.getItem('handle_state');
+    if (codeVerifier == null) {
+        return false;
+    }
     const params = new URLSearchParams(location.href.toString().split("?")[1]);
     if (params.has('code') === false) {
         return false;
@@ -34,12 +37,24 @@ async function requestToken() {
     );
 
     console.log(requestURL);
-    const tokens = await fetch(requestURL, {
+    let response = await fetch(requestURL, {
         method: "POST",
         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
         body: requestBody});
+    if (!response.ok) {
+        console.log("1st response error");
+        response = await fetch(requestURL, {
+            method: "POST",
+            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            body: requestBody});
+        if (!response.ok) {
+            console.log('2nd response error');
+            return false;
+        }
+    }
+    const tokens = await response.json();
     console.log(tokens);
-    return tokens.json();
+    return tokens;
 }
 
 
@@ -77,8 +92,8 @@ document.getElementById("test").onclick = async function requestCode() {
     const viewHash = new Uint8Array(hash);
     const codeChallenge = base64url(viewHash);
     const state = randomString(32);
-    localStorage.setItem('handle_login_verifier', codeVerifier);
-    localStorage.setItem('handle_login_state', state);
+    localStorage.setItem('handle_verifier', codeVerifier);
+    localStorage.setItem('handle_state', state);
     console.log(codeVerifier);
 
     const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
