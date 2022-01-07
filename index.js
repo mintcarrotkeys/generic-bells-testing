@@ -1,5 +1,6 @@
 const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
 
+document.getElementById('version').textContent = "v0.1.1";
 
 async function requestToken() {
     localStorage.setItem('access_age', Date.now().toString());
@@ -36,7 +37,6 @@ async function requestToken() {
         "https://student.sbhs.net.au/api/token"
     );
 
-    console.log(requestURL);
     let response = await fetch(requestURL, {
         method: "POST",
         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
@@ -92,7 +92,6 @@ async function requestCode() {
     const state = randomString(32);
     localStorage.setItem('handle_verifier', codeVerifier);
     localStorage.setItem('handle_state', state);
-    console.log(codeVerifier);
 
     const requestURL = (
         "https://student.sbhs.net.au/api/authorize?" +
@@ -111,15 +110,12 @@ async function requestCode() {
 
 document.getElementById("test").onclick = requestCode;
 
-const data = requestToken();
-console.log(data);
-
 async function stateManager() {
     const params = new URLSearchParams(location.href.toString().split("?")[1]);
     const tokenAge = localStorage.getItem('access_age');
     const token = localStorage.getItem('handle_access');
-    console.log(Number(tokenAge));
-    console.log(Date.now());
+    console.log("token age: " + Number(tokenAge));
+    console.log("current time: " + Date.now());
     let response;
     if (params.has('code')) {
         response = await requestToken();
@@ -160,8 +156,9 @@ async function organiser() {
        fetchData().then(data => console.log(data));
     }
     else {
-        console.log("result");
+        console.log("result: " + result);
     }
+    console.log(localStorage.getItem('handle_access'))
 }
 
 const result = organiser();
