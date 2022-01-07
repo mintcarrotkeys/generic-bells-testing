@@ -171,7 +171,8 @@ async function fetchData() {
     fetch(baseUrl + "timetable/daytimetable.json",
         {
             headers: new Headers({
-                Authorization: "Bearer " + localStorage.getItem('handle_access')
+                Authorization: "Bearer " + localStorage.getItem('handle_access'),
+                'Content-Type': "application/json"
             })
         }).then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
 
