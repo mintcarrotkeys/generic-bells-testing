@@ -1,8 +1,9 @@
-
-
+const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
 
 
 async function requestToken() {
+    localStorage.setItem('access_age', Date.now().toString());
+    localStorage.removeItem('handle_access');
     const codeVerifier = localStorage.getItem('handle_verifier');
     const state = localStorage.getItem('handle_state');
     if (codeVerifier == null) {
@@ -14,7 +15,6 @@ async function requestToken() {
     }
     const code = params.get('code');
     const returnedState = params.get('state');
-    const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
     if (returnedState !== state) {
         return false;
     }
@@ -54,15 +54,13 @@ async function requestToken() {
     }
     const tokens = await response.json();
     console.log(tokens);
-    return tokens;
+    localStorage.setItem('handle_access', tokens['access_token']);
+    localStorage.setItem('access_age', Date.now().toString());
+
+    return true;
 }
 
-
-const data = requestToken();
-console.log(data);
-
-
-document.getElementById("test").onclick = async function requestCode() {
+async function requestCode() {
     //generate code verifier 43-128 characters long
     function randomString(length) {
         let randomNumbers = new Uint32Array(length);
@@ -96,17 +94,6 @@ document.getElementById("test").onclick = async function requestCode() {
     localStorage.setItem('handle_state', state);
     console.log(codeVerifier);
 
-    const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
-
-    // generate code challenge from code verifier
-    //
-    //
-    //        "&redirect_uri=https://testing-genericbells.pages.dev"
-    // https://student.sbhs.net.au/api/authorize&client_id=genericbellstestingonly
-    // &response_type=code&state=DLK1b44s4BWk~ys5holF7Vm7m8Eiy_Re
-    // &code_challenge=u2lOoOGYBWoOW46exdRPTX7g0qNUHVE7VS6iUJowCBw
-    // &code_challenge_method=S256&scope=all-ro
-
     const requestURL = (
         "https://student.sbhs.net.au/api/authorize?" +
         "client_id=genericbellstestingonly&" +
@@ -120,4 +107,61 @@ document.getElementById("test").onclick = async function requestCode() {
 
     location.assign(requestURL);
 
-};
+}
+
+document.getElementById("test").onclick = requestCode;
+
+const data = requestToken();
+console.log(data);
+
+async function stateManager() {
+    const params = new URLSearchParams(location.href.toString().split("?")[1]);
+    const tokenAge = localStorage.getItem('access_age');
+    const token = localStorage.getItem('handle_access');
+    console.log(Number(tokenAge));
+    console.log(Date.now());
+    let response;
+    if (params.has('code')) {
+        response = await requestToken();
+        if (response === false) {
+            return "askToLogin";
+        }
+        else {
+            return "success";
+        }
+    }
+    else if (tokenAge !== "" && (Date.now() <= (Number(tokenAge) + 3500))) {
+        //check for token - if no token then show login message
+        if (token !== "") {
+            return "success";
+        }
+        else {
+            return "askToLogin";
+        }
+        //if token exist but too old then automatically redirect to login
+    }
+    else {
+        await requestCode();
+        return "redirect";
+    }
+}
+
+
+// function to request data
+async function fetchData() {}
+// if token doesn't work, delete token and start again.
+
+async function organiser() {
+    const result = await stateManager();
+    if (result === "askToLogin") {
+        document.getElementById("test").textContent = "Click to Login";
+    }
+    else if (result === "success") {
+       fetchData().then(data => console.log(data));
+    }
+    else {
+        console.log("result");
+    }
+}
+
+const result = organiser();
