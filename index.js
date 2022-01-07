@@ -126,7 +126,7 @@ async function stateManager() {
             return "success";
         }
     }
-    else if (tokenAge !== "" && (Date.now() <= (Number(tokenAge) + 3500))) {
+    else if (tokenAge !== "" && (Date.now() <= (Number(tokenAge) + 3500000))) {
         //check for token - if no token then show login message
         if (token !== "") {
             return "success";
@@ -158,6 +158,7 @@ async function organiser() {
     else {
         console.log("result: " + result);
     }
+    console.log("result: " + result);
     console.log(localStorage.getItem('handle_access'))
 }
 
