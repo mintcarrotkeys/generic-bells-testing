@@ -180,10 +180,9 @@ async function fetchData() {
     await fetch(baseUrl + "timetable/userinfo.json",
         {
             headers: {
-                'authorization': token,
-                'content-type': 'application/json',
+                'content-type': 'application/json'
             },
-            credentials: 'include'
+            body: {'authorization': token}
         })
         .then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
 
