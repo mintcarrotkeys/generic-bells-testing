@@ -168,7 +168,7 @@ async function fetchData() {
      *
      * **/
     let routineData;
-    const token = "Bearer " + localStorage.getItem('handle_access');
+    const token = localStorage.getItem('handle_access');
     console.log(token);
     fetch(baseUrl + "timetable/bells.json",
         {
@@ -180,9 +180,9 @@ async function fetchData() {
     await fetch(baseUrl + "timetable/userinfo.json",
         {
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'authorization': token
             },
-            body: {'authorization': token}
         })
         .then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
 
