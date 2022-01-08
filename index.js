@@ -149,7 +149,6 @@ async function fetchData() {
 
     await fetch(baseUrl + "details/userinfo.json",
         { headers: new Headers({'Authorization': token})})
-
         .then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
 
 }
