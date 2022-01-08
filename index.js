@@ -60,7 +60,6 @@ async function requestToken() {
 
     return true;
 }
-
 async function requestCode() {
     //generate code verifier 43-128 characters long
     function randomString(length) {
@@ -108,9 +107,7 @@ async function requestCode() {
     location.assign(requestURL);
 
 }
-
 document.getElementById("test").onclick = requestCode;
-
 async function stateManager() {
     const params = new URLSearchParams(location.href.toString().split("?")[1]);
     const tokenAge = localStorage.getItem('access_age');
@@ -142,35 +139,13 @@ async function stateManager() {
         return "redirect";
     }
 }
-
-
 // function to request data
 async function fetchData() {
     const baseUrl = "https://student.sbhs.net.au/api/";
     const resources = [];
-    /**
-     * Scopes needed:
-     *
-     * /timetable/bells.json public
-     *      concat [day, week, weekType] => eg. Tuesday 5A
-     *
-     * /timetable/daytimetable.json auth
-     *      "apiData" pass to pageBells display
-     *
-     * /timetable/timetable.json auth
-     *      future: pass to pageTimetable
-     *
-     * /dailynews/list.json auth
-     *      future: news feed
-     *
-     * /details/userinfo.json auth
-     *      username => barcode scanner
-     *
-     * **/
     let routineData;
     const token = "Bearer " + localStorage.getItem('handle_access');
     console.log(token);
-    fetch(baseUrl + "timetable/timetable.json").then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
 
     await fetch(baseUrl + "details/userinfo.json",
         { headers: new Headers({'Authorization': token}), credentials: "include" })
