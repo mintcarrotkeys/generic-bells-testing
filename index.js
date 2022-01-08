@@ -177,11 +177,12 @@ async function fetchData() {
             //     // 'Content-type': "application/json"
             // })
         }).then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
-    await fetch(baseUrl + "timetable/userinfo.json",
+    await fetch(baseUrl + "details/userinfo.json",
         {
             headers: {
                 'content-type': 'application/json',
-                'authorization': token
+                'authorization': token,
+                'credentials': 'omit'
             },
         })
         .then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
