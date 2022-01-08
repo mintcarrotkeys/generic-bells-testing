@@ -146,7 +146,7 @@ async function stateManager() {
 
 // function to request data
 async function fetchData() {
-    const baseUrl = 'https://student.sbhs.net.au/api/';
+    const baseUrl = "https://student.sbhs.net.au/api/";
     const resources = [];
     /**
      * Scopes needed:
@@ -168,23 +168,14 @@ async function fetchData() {
      *
      * **/
     let routineData;
-    const token = localStorage.getItem('handle_access');
+    const token = "Bearer " + localStorage.getItem('handle_access');
     console.log(token);
     fetch(baseUrl + "timetable/bells.json",
         {
-            // headers: new Headers({
-            //     Authorization: ("Bearer " + token)
-            //     // 'Content-type': "application/json"
-            // })
         }).then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
+
     await fetch(baseUrl + "details/userinfo.json",
-        {
-            headers: {
-                'content-type': 'application/json',
-                'authorization': token,
-                'credentials': 'omit'
-            },
-        })
+        {headers: {"Authorization": token}})
         .then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
 
 }
