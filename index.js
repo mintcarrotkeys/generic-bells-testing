@@ -177,7 +177,7 @@ async function fetchData() {
             //     // 'Content-type': "application/json"
             // })
         }).then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
-    fetch(baseUrl + "timetable/daytimetable.json",
+    await fetch(baseUrl + "timetable/userinfo.json",
         {
             headers: {
                 'authorization': token,
