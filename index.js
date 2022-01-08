@@ -182,7 +182,8 @@ async function fetchData() {
             headers: {
                 'authorization': token,
                 'content-type': 'application/json',
-            }
+            },
+            credentials: 'include'
         })
         .then(res => res.json()).then(data => routineData = data).then(() => console.log(routineData));
 
