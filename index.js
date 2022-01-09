@@ -1,7 +1,6 @@
-const redirect = encodeURIComponent('https://genericbells-t2.pages.dev');
-const appId = "genericbellstestingonly_1641706298";
+const redirect = encodeURIComponent('https://testing-genericbells.pages.dev');
 
-document.getElementById('version').textContent = "v0.2.9";
+document.getElementById('version').textContent = "v0.1.8";
 
 async function requestToken() {
     localStorage.setItem('access_age', Date.now().toString());
@@ -21,10 +20,17 @@ async function requestToken() {
     if (returnedState !== state) {
         return false;
     }
+    // const requestBody = {
+    //     'grant_type': 'authorization_code',
+    //     'code': code,
+    //     'redirect_uri': redirect,
+    //     'client_id': 'genericbellstestingonly',
+    //     'code_verifier': codeVerifier
+    // }
     const requestBody = (
         "grant_type=authorization_code" +
         "&redirect_uri=" + redirect +
-        "&client_id=" + appId +
+        "&client_id=genericbellstestingonly" +
         "&code=" + code +
         "&code_verifier=" + codeVerifier
     );
@@ -89,7 +95,7 @@ async function requestCode() {
 
     const requestURL = (
         "https://student.sbhs.net.au/api/authorize?" +
-        "client_id=" + appId + "&" +
+        "client_id=genericbellstestingonly&" +
         "response_type=code&" +
         "state=" + state + "&" +
         "code_challenge=" + codeChallenge + "&" +
@@ -154,7 +160,7 @@ async function organiser() {
         document.getElementById("test").textContent = "Click to Login";
     }
     else if (result === "success") {
-       fetchData().then(data => console.log(data));
+        fetchData().then(data => console.log(data));
     }
     else {
         console.log("result: " + result);
