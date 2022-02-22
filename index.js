@@ -56,6 +56,7 @@ async function requestToken() {
     const tokens = await response.json();
     console.log(tokens);
     localStorage.setItem('handle_access', tokens['access_token']);
+    localStorage.setItem('handle_refresh', tokens['refresh_token']);
     localStorage.setItem('access_age', Date.now().toString());
 
     return true;
@@ -107,7 +108,7 @@ async function requestCode() {
     location.assign(requestURL);
 
 }
-document.getElementById("test").onclick = requestCode;
+document.getElementById("login").onclick = requestCode;
 async function stateManager() {
     const params = new URLSearchParams(location.href.toString().split("?")[1]);
     const tokenAge = localStorage.getItem('access_age');
@@ -170,3 +171,28 @@ async function organiser() {
 }
 
 const result = organiser();
+
+document.getElementById("refresh").onclick = requestRefresh;
+
+async function requestRefresh() {
+    const refresh = localStorage.getItem("handle_refresh");
+    const requestBody = {
+        'grant_type': 'refresh_token',
+        'client_id': "genericbellstestingonly",
+        'refresh_token': refresh
+    };
+    const requestURL = "https://refresh3.genericbells.workers.dev";
+    let response = await fetch(requestURL, {
+        method: "POST",
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        body: JSON.stringify(requestBody)}).catch(e => console.log(e));
+
+    console.log(response);
+    if (!response.ok) {
+        console.log("Error refreshing tokens. -1");
+    }
+    else {
+        console.log(await response.json());
+    }
+    return true;
+}
